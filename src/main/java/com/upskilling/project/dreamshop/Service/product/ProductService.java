@@ -1,6 +1,6 @@
 package com.upskilling.project.dreamshop.Service.product;
 
-import com.upskilling.project.dreamshop.exception.ProductNotFoundException;
+import com.upskilling.project.dreamshop.exception.ResourceNotFoundException;
 import com.upskilling.project.dreamshop.model.Category;
 import com.upskilling.project.dreamshop.model.Product;
 import com.upskilling.project.dreamshop.repository.CategoryRepository;
@@ -44,7 +44,7 @@ public class ProductService implements IProductService{
     @Override
     public Product getProductById(Long id) {
         return repo.findById(id)
-                .orElseThrow(()-> new ProductNotFoundException("Product not Found!"));
+                .orElseThrow(()-> new ResourceNotFoundException("Product not Found!"));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ProductService implements IProductService{
         return repo.findById(id)
                 .map(existing -> updateExistingProduct(existing, request))
                 .map(repo::save)
-                .orElseThrow(() -> new ProductNotFoundException("Product Not Found"))
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"))
                 ;
     }
 
@@ -70,9 +70,9 @@ public class ProductService implements IProductService{
     @Override
     public void deleteProductById(Long id) {
         repo.findById(id).ifPresentOrElse(Product -> repo.deleteById(id),
-                () -> {throw new ProductNotFoundException("Product not Found!");});
+                () -> {throw new ResourceNotFoundException("Product not Found!");});
 //      repo.findById(id).ifPresentOrElse(repo::delete,
-//              () -> {throw new ProductNotFoundException("Product not Found!");});
+//              () -> {throw new ResourceNotFoundException("Product not Found!");});
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public Long countProductByNameAndBrand(String name, String brand) {
+    public Long countProductByNameAndBrand(String brand, String name) {
         return productRepo.countByNameAndBrand(name, brand);
     }
 }
