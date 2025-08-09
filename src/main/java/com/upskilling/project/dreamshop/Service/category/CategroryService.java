@@ -3,7 +3,6 @@ import com.upskilling.project.dreamshop.exception.AlreadyExistsException;
 import com.upskilling.project.dreamshop.exception.ResourceNotFoundException;
 import com.upskilling.project.dreamshop.model.Category;
 import com.upskilling.project.dreamshop.repository.CategoryRepository;
-import com.upskilling.project.dreamshop.request.AddCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +23,20 @@ public class CategroryService implements ICategroryService{
     }
 
     @Override
-    public Category updateCategoryById(Long id, AddCategory request) {
+    public Category updateCategoryById(Long id, Category category) {
         return Optional.ofNullable(getCategoryById(id))
                 .map(oldCategory -> {
-                    oldCategory.setName(request.getName());
+                    oldCategory.setName(category.getName());
                     return categoryRepository.save(oldCategory);
                 }).orElseThrow(() -> new ResourceNotFoundException("Category Not Found"));
     }
 
 
     @Override
-    public Category addCategory(AddCategory request) {
-
-        return Optional.of(request).filter(c -> !categoryRepository.existsByName(c.getName()))
-                .map(categoryRepository::save)
-                .orElseThrow(new AlreadyExistsException(request.getName() +" is already exsist!!"));
+    public Category addCategory(Category category) {
+        return Optional.of(category).filter(c -> !categoryRepository.existsByName(c.getName()))
+                .map(categoryRepository :: save)
+                .orElseThrow(() -> new AlreadyExistsException(category.getName() +" is already exsist!!"));
     }
 
     @Override
