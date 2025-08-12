@@ -48,7 +48,7 @@ public class CategroryService implements ICategroryService{
 
     @Override
     public Category getCategoryByName(String name) {
-        return CategoryRepository.findByName(name);
+        return categoryRepository.findByName(name);
     }
 
     @Override

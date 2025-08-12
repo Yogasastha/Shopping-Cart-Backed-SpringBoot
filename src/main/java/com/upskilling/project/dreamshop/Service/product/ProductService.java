@@ -8,6 +8,7 @@ import com.upskilling.project.dreamshop.repository.productRepo;
 import com.upskilling.project.dreamshop.request.AddProductRequest;
 import com.upskilling.project.dreamshop.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +18,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService implements IProductService{
 
-    private final productRepo repo;
+    @Autowired
+    private final productRepo productRepo;
 
+    @Autowired
     private CategoryRepository categoryRepository;
     @Override
     public Product addProduct(AddProductRequest request) {
-        Category category = Optional.ofNullable(CategoryRepository.findByName(request.getCategory().getName()))
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
@@ -43,15 +46,15 @@ public class ProductService implements IProductService{
     }
     @Override
     public Product getProductById(Long id) {
-        return repo.findById(id)
+        return productRepo.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Product not Found!"));
     }
 
     @Override
     public Product updateProductById(Long id, UpdateProductRequest request) {
-        return repo.findById(id)
+        return productRepo.findById(id)
                 .map(existing -> updateExistingProduct(existing, request))
-                .map(repo::save)
+                .map(productRepo::save)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"))
                 ;
     }
@@ -62,22 +65,22 @@ public class ProductService implements IProductService{
         existing.setPrice(update.getPrice());
         existing.setDescription(update.getDescription());
         existing.setInventory(update.getInventory());
-        Category category = CategoryRepository.findByName(update.getCategory().getName());
+        Category category = categoryRepository.findByName(update.getCategory().getName());
         existing.setCategory(category);
         return existing;
     }
 
     @Override
     public void deleteProductById(Long id) {
-        repo.findById(id).ifPresentOrElse(Product -> repo.deleteById(id),
+        productRepo.findById(id).ifPresentOrElse(Product -> productRepo.deleteById(id),
                 () -> {throw new ResourceNotFoundException("Product not Found!");});
-//      repo.findById(id).ifPresentOrElse(repo::delete,
+//      repo.findById(id).ifPresentOrElse(productRepo::delete,
 //              () -> {throw new ResourceNotFoundException("Product not Found!");});
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return repo.findAll();
+        return productRepo.findAll();
     }
 
     @Override

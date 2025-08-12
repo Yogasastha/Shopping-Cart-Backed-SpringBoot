@@ -2,27 +2,22 @@ package com.upskilling.project.dreamshop.repository;
 
 import com.upskilling.project.dreamshop.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface productRepo extends JpaRepository<Product, Long> {
 
-    static List<Product> findByCategoryName(String category) {
-    }
+    List<Product> findByCategoryName(String category);
 
-    static List<Product> findByBrand(String brand) {
-    }
+    List<Product> findByBrand(String brand);
 
-    static List<Product> findByCategoryAndBrand(String category, String brand) {
-    }
+    List<Product> findByCategoryAndBrand(String category, String brand);
 
-    static List<Product> findByName(String name) {
-    }
+    List<Product> findByName(String name);
 
-    static List<Product> findByNameAndBrand(String name, String brand) {
-    }
+    List<Product> findByNameAndBrand(String name, String brand);
 
-    static Long countByNameAndBrand(String name, String brand) {
-        return null;
+    Long countByNameAndBrand(String name, String brand);
     }
-}
