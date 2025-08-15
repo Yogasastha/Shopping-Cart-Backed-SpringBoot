@@ -7,7 +7,6 @@ import com.upskilling.project.dreamshop.repository.CategoryRepository;
 import com.upskilling.project.dreamshop.repository.productRepo;
 import com.upskilling.project.dreamshop.request.AddProductRequest;
 import com.upskilling.project.dreamshop.request.UpdateProductRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +14,24 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class ProductService implements IProductService{
+public class ProductService implements IProductService {
 
-    @Autowired
     private final productRepo productRepo;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    @Autowired  // Optional if only one constructor, but good for clarity
+    public ProductService(productRepo productRepo, CategoryRepository categoryRepository) {
+        this.productRepo = productRepo;
+        this.categoryRepository = categoryRepository;
+    }
+
     @Override
     public Product addProduct(AddProductRequest request) {
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
-                }
-                );
+                });
         return createProduct(request, category);
     }
 
@@ -44,10 +45,11 @@ public class ProductService implements IProductService{
                 category
         );
     }
+
     @Override
     public Product getProductById(Long id) {
         return productRepo.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Product not Found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not Found!"));
     }
 
     @Override
@@ -55,8 +57,7 @@ public class ProductService implements IProductService{
         return productRepo.findById(id)
                 .map(existing -> updateExistingProduct(existing, request))
                 .map(productRepo::save)
-                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"))
-                ;
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
     }
 
     public Product updateExistingProduct(Product existing, UpdateProductRequest update) {
@@ -72,10 +73,10 @@ public class ProductService implements IProductService{
 
     @Override
     public void deleteProductById(Long id) {
-        productRepo.findById(id).ifPresentOrElse(Product -> productRepo.deleteById(id),
-                () -> {throw new ResourceNotFoundException("Product not Found!");});
-//      repo.findById(id).ifPresentOrElse(productRepo::delete,
-//              () -> {throw new ResourceNotFoundException("Product not Found!");});
+        productRepo.findById(id).ifPresentOrElse(
+                product -> productRepo.deleteById(id),
+                () -> { throw new ResourceNotFoundException("Product not Found!"); }
+        );
     }
 
     @Override

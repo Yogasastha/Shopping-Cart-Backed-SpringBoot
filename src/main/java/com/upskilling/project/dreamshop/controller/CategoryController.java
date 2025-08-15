@@ -7,18 +7,23 @@ import com.upskilling.project.dreamshop.exception.ResourceNotFoundException;
 import com.upskilling.project.dreamshop.model.Category;
 import com.upskilling.project.dreamshop.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/categories")
 public class CategoryController {
 
+//    @Autowired
     private final ICategroryService categroryService;
+    public CategoryController(ICategroryService categroryService) {
+        this.categroryService = categroryService;
+    }
 
 
     @PostMapping("/add")

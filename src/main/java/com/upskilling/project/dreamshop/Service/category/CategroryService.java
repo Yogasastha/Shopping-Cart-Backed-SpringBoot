@@ -11,9 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class CategroryService implements ICategroryService{
     private final CategoryRepository categoryRepository;
+
+    public CategroryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public void deleteCategoryById(Long id) {
