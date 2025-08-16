@@ -32,7 +32,7 @@ public class ProductService implements IProductService {
                     Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
                 });
-        return createProduct(request, category);
+        return productRepo.save(createProduct(request, category));
     }
 
     public Product createProduct(AddProductRequest request, Category category) {
