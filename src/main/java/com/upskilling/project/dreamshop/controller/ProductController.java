@@ -2,14 +2,11 @@ package com.upskilling.project.dreamshop.controller;
 
 
 import com.upskilling.project.dreamshop.Service.product.ProductService;
-import com.upskilling.project.dreamshop.exception.ProductNotFoundException;
 import com.upskilling.project.dreamshop.exception.ResourceNotFoundException;
 import com.upskilling.project.dreamshop.model.Product;
 import com.upskilling.project.dreamshop.request.AddProductRequest;
 import com.upskilling.project.dreamshop.request.UpdateProductRequest;
 import com.upskilling.project.dreamshop.response.ApiResponse;
-import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

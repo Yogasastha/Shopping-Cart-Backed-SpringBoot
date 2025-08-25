@@ -19,7 +19,7 @@ public class ProductService implements IProductService {
     private final productRepo productRepo;
     private final CategoryRepository categoryRepository;
 
-    @Autowired  // Optional if only one constructor, but good for clarity
+//    @Autowired  // Optional if only one constructor, but good for clarity
     public ProductService(productRepo productRepo, CategoryRepository categoryRepository) {
         this.productRepo = productRepo;
         this.categoryRepository = categoryRepository;
@@ -112,5 +112,6 @@ public class ProductService implements IProductService {
     @Override
     public Long countProductByNameAndBrand(String brand, String name) {
         return productRepo.countByNameAndBrand(name, brand);
+
     }
 }
