@@ -7,11 +7,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Getter
-@Builder
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Product {
     @Id
@@ -30,10 +25,7 @@ public class Product {
     private List<Image> imageList;
 
 
-
-
-
-
+    public Product() {}
 
     public Product(String name, String brand, String description, BigDecimal price, int inventory, Category category) {
         this.name = name;

@@ -26,6 +26,7 @@ public class ProductController {
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
+        System.out.println(">>> getAllProducts() called");
         List<Product> productList = productService.getAllProducts();
         return ResponseEntity.ok(new ApiResponse("Success", productList));
     }
