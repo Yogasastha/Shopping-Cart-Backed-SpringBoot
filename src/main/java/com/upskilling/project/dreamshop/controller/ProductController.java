@@ -26,12 +26,11 @@ public class ProductController {
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
-        System.out.println(">>> getAllProducts() called");
         List<Product> productList = productService.getAllProducts();
         return ResponseEntity.ok(new ApiResponse("Success", productList));
     }
 
-    @GetMapping("/product/{id}/product")
+    @GetMapping("/product/{id}/id")
     public  ResponseEntity<ApiResponse> getProductById(@PathVariable Long id) {
         try {
             Product product = productService.getProductById(id);
@@ -42,7 +41,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/product/{name}/product")
+    @GetMapping("/product/{name}/name")
     public  ResponseEntity<ApiResponse> getProductByName(@PathVariable String name) {
         try {
             List<Product> productList = productService.getProductsByName(name);

@@ -17,12 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-
 public class ImageService implements IImageService{
 
-    private ImageRepository imgRepo;
-    private IProductService productService;
+    private final ImageRepository imgRepo;
+    private final IProductService productService;
+
+    public ImageService(ImageRepository imgRepo, IProductService productService) {
+        this.imgRepo = imgRepo;
+        this.productService = productService;
+    }
 
     @Override
     public Image getImageById(Long id) {
@@ -39,9 +42,9 @@ public class ImageService implements IImageService{
     @Override
     public List<ImageDTO> saveImages(List<MultipartFile> files, Long productId) {
         Product product = productService.getProductById(productId);
-        List<ImageDTO> savedImageDto = new ArrayList<>();
 
-        for(MultipartFile file: files) {
+        List<ImageDTO> savedImageDto = new ArrayList<>();
+        for (MultipartFile file : files) {
             try {
                 Image image = new Image();
                 image.setFileName(file.getOriginalFilename());
@@ -50,18 +53,20 @@ public class ImageService implements IImageService{
                 image.setProduct(product);
 
                 String buildDownloadUrl = "/api/v1/images/image/download/";
-                String downloadUrl = buildDownloadUrl + image.getId();
+                String downloadUrl = buildDownloadUrl+image.getId();
                 image.setDownloadUrl(downloadUrl);
                 Image savedImage = imgRepo.save(image);
 
-                ImageDTO imageDTO = new ImageDTO();
-                imageDTO.setImageId(savedImage.getId());
-                imageDTO.setImageName(savedImage.getFileName());
-                imageDTO.setDownloadUrl(savedImage.getDownloadUrl());
+                savedImage.setDownloadUrl(buildDownloadUrl+savedImage.getId());
+                imgRepo.save(savedImage);
 
-                savedImageDto.add(imageDTO);
+                ImageDTO imageDto = new ImageDTO();
+                imageDto.setImageId(savedImage.getId());
+                imageDto.setImageName(savedImage.getFileName());
+                imageDto.setDownloadUrl(savedImage.getDownloadUrl());
+                savedImageDto.add(imageDto);
 
-            } catch (IOException | SQLException e) {
+            }   catch(IOException | SQLException e){
                 throw new RuntimeException(e.getMessage());
             }
         }

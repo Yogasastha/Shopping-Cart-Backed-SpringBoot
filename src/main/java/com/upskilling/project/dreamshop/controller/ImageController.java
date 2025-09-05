@@ -29,7 +29,11 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files, @RequestParam Long productId) {
+    public ResponseEntity<ApiResponse> saveImages(
+            @RequestParam("files") List<MultipartFile> files,
+            @RequestParam("productId") Long productId) {
+
+        System.out.println("Product ID: " + productId);
         try {
             List<ImageDTO> imageDTOS = imageService.saveImages(files, productId);
             return ResponseEntity.ok(new ApiResponse("Upload Successfull!", imageDTOS));
