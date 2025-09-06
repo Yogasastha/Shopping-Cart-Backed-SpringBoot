@@ -1,5 +1,4 @@
 package com.upskilling.project.dreamshop.model;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +16,14 @@ public class Image {
     private Long id;
     private String fileName;
     private String fileType;
+
+    @Lob
+    private Blob image;
+    private String downloadUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     public Long getId() {
         return id;
@@ -42,6 +49,7 @@ public class Image {
         this.fileType = fileType;
     }
 
+
     public Blob getImage() {
         return image;
     }
@@ -65,12 +73,4 @@ public class Image {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-    @Lob
-    private Blob image;
-    private String downloadUrl;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
 }

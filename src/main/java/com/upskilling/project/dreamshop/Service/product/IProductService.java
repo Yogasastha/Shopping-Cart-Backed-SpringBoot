@@ -1,5 +1,6 @@
 package com.upskilling.project.dreamshop.Service.product;
 
+import com.upskilling.project.dreamshop.DTO.ProductDTO;
 import com.upskilling.project.dreamshop.model.Product;
 import com.upskilling.project.dreamshop.request.AddProductRequest;
 import com.upskilling.project.dreamshop.request.UpdateProductRequest;
@@ -21,4 +22,5 @@ public interface IProductService {
     Long countProductByNameAndBrand(String name, String brand);
 
 
+    List<ProductDTO> getConvertedProducts(List<Product> products);
 }
