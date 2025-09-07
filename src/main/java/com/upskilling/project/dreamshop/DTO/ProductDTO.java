@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductDTO {
     private Long id;
     private String name;
@@ -15,7 +16,7 @@ public class ProductDTO {
     private String description;
     private BigDecimal price;
     private int inventory;
-    private Category category;
+    private CategoryDTO categoryDTO;
     private List<ImageDTO> imageList;
 
     public Long getId() {
@@ -66,12 +67,12 @@ public class ProductDTO {
         this.inventory = inventory;
     }
 
-    public Category getCategory() {
-        return category;
+    public CategoryDTO getCategoryDTO() {
+        return categoryDTO;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryDTO(CategoryDTO categoryDTO) {
+        this.categoryDTO = categoryDTO;
     }
 
     public List<ImageDTO> getImageList() {
