@@ -3,6 +3,7 @@ import com.upskilling.project.dreamshop.exception.AlreadyExistsException;
 import com.upskilling.project.dreamshop.exception.ResourceNotFoundException;
 import com.upskilling.project.dreamshop.model.Category;
 import com.upskilling.project.dreamshop.repository.CategoryRepository;
+import com.upskilling.project.dreamshop.request.AddCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,6 @@ public class CategroryService implements ICategroryService{
             throw new ResourceNotFoundException("Category Not Found");
         });
     }
-
     @Override
     public Category updateCategoryById(Long id, Category category) {
         return Optional.ofNullable(getCategoryById(id))

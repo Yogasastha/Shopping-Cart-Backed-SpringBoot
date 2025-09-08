@@ -7,6 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 @Data
 public class AddCategory {
-    private Long id;
     private String name;
 }

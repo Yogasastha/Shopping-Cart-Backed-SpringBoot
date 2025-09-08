@@ -1,14 +1,11 @@
 package com.upskilling.project.dreamshop.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
 
-@Getter
-@Setter
 @Entity
 public class Category {
     @Id

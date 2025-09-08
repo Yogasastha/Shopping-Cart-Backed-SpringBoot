@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductDTO {
     private Long id;
     private String name;
